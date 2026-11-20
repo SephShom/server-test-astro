@@ -1,11 +1,175 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import BarMark from '../components/BarMark.astro';
+import ContactForm from '../components/ContactForm.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import { services, site } from '../data/site';
 ---
 
 <Layout>
-	<Welcome />
+  <section class="hero">
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <h1 class="hero__title">Tu negocio en orden. Tus decisiones, claras.</h1>
+        <p class="hero__lead">
+          Somos una consultora contable en La Paz. Ordenamos tu contabilidad, tus impuestos y tu
+          seguridad social para que puedas enfocarte en hacer crecer tu negocio.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--gold" href="#contacto">Cuéntanos tu caso</a>
+          <a class="btn btn--outline" href="#servicios">Ver servicios</a>
+        </div>
+        <p class="hero__note">Atención cercana a emprendedores y pequeñas empresas.</p>
+      </div>
+
+      <div class="hero__visual">
+        <div class="hero__photo hero__photo--main">
+          <img src="/accounting-6779565.webp" alt="Documentación contable organizada sobre una mesa de trabajo" width="1920" height="1080" fetchpriority="high" />
+        </div>
+        <div class="hero__photo hero__photo--tall">
+          <img src="/accounting-7947637.webp" alt="Registros financieros en revisión" width="1280" height="1920" loading="eager" />
+        </div>
+        <div class="hero__photo hero__photo--small">
+          <img src="/accounting-6963865.webp" alt="Cálculos y planillas de trabajo" width="1920" height="1804" loading="lazy" />
+        </div>
+        <svg class="hero-check" viewBox="0 0 240 200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+          <polyline
+            points="20,110 88,170 220,35"
+            pathLength="1"
+            fill="none"
+            stroke="#C9A227"
+            stroke-width="15"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tinted" id="servicios">
+    <div class="container">
+      <div class="section__head">
+        <BarMark />
+        <div>
+          <h2 class="section__title">Lo que resolvemos</h2>
+          <p class="section__lede">
+            Cinco servicios pensados para darle certeza a tu gestión, sin importar en qué etapa estés.
+          </p>
+        </div>
+      </div>
+
+      <div class="services">
+        {services.map((service) => (
+          <article class="service">
+            <BarMark className="bar-mark service__icon" />
+            <h3 class="service__name">{service.name}</h3>
+            <p class="service__desc">{service.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--blue" id="proceso">
+    <div class="container">
+      <div class="section__head">
+        <BarMark />
+        <div>
+          <h2 class="section__title">Empezar es simple.</h2>
+          <p class="section__lede">Tres pasos para poner tu contabilidad al día.</p>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <span class="step__num">01</span>
+          <h3 class="step__title">Cuéntanos tu situación</h3>
+          <p class="step__text">Nos escribes por el formulario o WhatsApp y entendemos qué necesitas.</p>
+        </div>
+        <div class="step">
+          <span class="step__num">02</span>
+          <h3 class="step__title">Revisamos tu documentación</h3>
+          <p class="step__text">Evaluamos tu información y te decimos qué hace falta, con lenguaje claro.</p>
+        </div>
+        <div class="step">
+          <span class="step__num">03</span>
+          <h3 class="step__title">Recibes un plan</h3>
+          <p class="step__text">Definimos el alcance y los plazos para trabajar con tranquilidad.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="nosotros">
+    <div class="container about__grid">
+      <div class="about__media">
+        <img src="/accounting-6963865.webp" alt="Proceso de revisión contable" width="1920" height="1804" loading="lazy" />
+      </div>
+
+      <div class="about__body">
+        <div class="section__head">
+          <BarMark />
+          <div>
+            <h2 class="section__title">Rigor contable, trato cercano.</h2>
+          </div>
+        </div>
+        <p>
+          Nuestra misión es brindar servicios contables, tributarios y de seguridad social confiables
+          y oportunos. Trabajamos para que emprendedores y pequeñas empresas cumplan sus obligaciones
+          legales y fortalezcan su gestión financiera.
+        </p>
+        <p>
+          Creemos en el acompañamiento personalizado, especialmente para quienes están dando el paso
+          hacia la formalización.
+        </p>
+
+        <ul class="values">
+          <li>Integridad</li>
+          <li>Confidencialidad</li>
+          <li>Actualización constante</li>
+          <li>Cercanía</li>
+          <li>Puntualidad</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tinted" id="contacto">
+    <div class="container contact__grid">
+      <div class="contact__intro">
+        <div class="section__head">
+          <BarMark />
+          <div>
+            <h2 class="section__title">Hablemos de tu negocio.</h2>
+            <p class="section__lede">
+              Cuéntanos qué necesitas y te respondemos con una propuesta concreta.
+            </p>
+          </div>
+        </div>
+
+        <div class="contact__details">
+          <div class="contact-item">
+            <span>Dirección</span>
+            <p>{site.address}</p>
+          </div>
+          <div class="contact-item">
+            <span>Correo</span>
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+          </div>
+          <div class="contact-item">
+            <span>Teléfono y WhatsApp</span>
+            <a href={site.whatsappHref} target="_blank" rel="noopener noreferrer">{site.whatsapp}</a>
+          </div>
+          <div class="contact-item">
+            <span>Redes</span>
+            <a href={site.facebook} target="_blank" rel="noopener noreferrer">Facebook</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-panel">
+        <ContactForm />
+      </div>
+    </div>
+  </section>
 </Layout>

@@ -1,27 +1,110 @@
 ---
+import '@fontsource-variable/archivo';
+import '@fontsource-variable/public-sans';
 import '../styles/global.css';
+
+import logo from '../assets/probus-isotipo.svg';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Probus Consultores | Contabilidad y tributaria en La Paz',
+  description = 'Contabilidad, cumplimiento tributario y seguridad social para emprendedores y pequeñas empresas en Bolivia.'
+} = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+    <div class="topline">
+      <div class="container topline__inner">
+        <span>La Paz, Bolivia</span>
+        <a href={site.phoneHref}>{site.phone}</a>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+      </div>
+    </div>
+
+    <header class="masthead">
+      <nav class="container nav" aria-label="Navegación principal">
+        <a class="brand" href="/" aria-label={`${site.name}, inicio`}>
+          <img class="brand__mark" src={logo.src} alt="" width="44" height="44" />
+          <span>
+            <span class="brand__name">{site.shortName}</span>
+            <span class="brand__sub">{site.subName}</span>
+          </span>
+        </a>
+
+        <div class="nav__links">
+          <a href="#servicios">Servicios</a>
+          <a href="#nosotros">Nosotros</a>
+          <a href="#contacto">Contacto</a>
+        </div>
+
+        <a class="btn btn--gold" href="#contacto">Solicitar asesoría</a>
+      </nav>
+    </header>
+
+    <main id="contenido">
+      <slot />
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__grid">
+          <div>
+            <a class="brand" href="/" aria-label={`${site.name}, inicio`}>
+              <img class="brand__mark" src={logo.src} alt="" width="44" height="44" />
+              <span>
+                <span class="brand__name">{site.shortName}</span>
+                <span class="brand__sub">{site.subName}</span>
+              </span>
+            </a>
+            <p class="footer__tagline">
+              Contabilidad y tributaria con atención cercana, para que tu negocio crezca en orden.
+            </p>
+          </div>
+
+          <div>
+            <h2 class="footer__title">Explorar</h2>
+            <ul class="footer__list">
+              <li><a href="#servicios">Servicios</a></li>
+              <li><a href="#nosotros">Nosotros</a></li>
+              <li><a href="#contacto">Contacto</a></li>
+              <li><a href={site.facebook} target="_blank" rel="noopener noreferrer">Facebook</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 class="footer__title">Hablemos</h2>
+            <ul class="footer__list">
+              <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+              <li><a href={site.phoneHref}>{site.phone}</a></li>
+              <li><a href={site.whatsappHref} target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+              <li>{site.address}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer__bottom">
+          <span>© {new Date().getFullYear()} {site.name}. Todos los derechos reservados.</span>
+          <span>La Paz, Bolivia</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

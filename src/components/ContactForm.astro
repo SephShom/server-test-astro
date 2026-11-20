@@ -1,0 +1,91 @@
+---
+import { services } from '../data/site';
+---
+
+<form id="contact-form" novalidate>
+  <div class="form-grid">
+    <div class="field">
+      <label for="nombre">Nombre</label>
+      <input id="nombre" name="name" type="text" autocomplete="name" placeholder="Tu nombre" required minlength="2" maxlength="100" />
+    </div>
+
+    <div class="field">
+      <label for="correo">Correo electrónico</label>
+      <input id="correo" name="email" type="email" autocomplete="email" placeholder="nombre@empresa.com" required maxlength="150" />
+    </div>
+
+    <div class="field">
+      <label for="telefono">Teléfono o WhatsApp</label>
+      <input id="telefono" name="phone" type="tel" autocomplete="tel" placeholder="+591 ..." maxlength="40" />
+    </div>
+
+    <div class="field">
+      <label for="servicio">Servicio de interés</label>
+      <select id="servicio" name="service">
+        <option value="">Selecciona uno</option>
+        {services.map((service) => <option value={service.name}>{service.name}</option>)}
+      </select>
+    </div>
+
+    <div class="field field--full">
+      <label for="mensaje">¿En qué podemos ayudarte?</label>
+      <textarea id="mensaje" name="message" placeholder="Cuéntanos sobre tu negocio y lo que necesitas resolver." required minlength="10" maxlength="3000"></textarea>
+    </div>
+  </div>
+
+  <div class="honeypot" aria-hidden="true">
+    <label for="website">Sitio web</label>
+    <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <div class="form-footer">
+    <button id="form-submit" class="btn btn--gold" type="submit">Enviar mensaje</button>
+    <p class="form-note">Usamos tus datos solo para responder tu consulta.</p>
+  </div>
+
+  <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#contact-form');
+  const status = document.querySelector<HTMLElement>('#form-status');
+  const button = document.querySelector<HTMLButtonElement>('#form-submit');
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!form || !status || !button) return;
+
+    status.textContent = '';
+    delete status.dataset.state;
+
+    const payload = Object.fromEntries(new FormData(form).entries());
+    const originalLabel = button.textContent;
+
+    button.disabled = true;
+    button.textContent = 'Enviando…';
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const result = (await response.json()) as { ok?: boolean; message?: string; error?: string };
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error ?? 'No pudimos enviar tu mensaje. Inténtalo de nuevo.');
+      }
+
+      status.dataset.state = 'success';
+      status.textContent = result.message ?? 'Mensaje enviado.';
+      form.reset();
+    } catch (error) {
+      status.dataset.state = 'error';
+      status.textContent =
+        error instanceof Error ? error.message : 'No pudimos enviar tu mensaje. Inténtalo de nuevo.';
+    } finally {
+      button.disabled = false;
+      button.textContent = originalLabel;
+    }
+  });
+</script>

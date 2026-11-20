@@ -1,0 +1,8 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Barras ascendentes: crecimiento y datos financieros -->
+  <rect x="40" y="110" width="26" height="50" rx="3" fill="#0B2545"/>
+  <rect x="88" y="70" width="26" height="90" rx="3" fill="#0B2545"/>
+  <rect x="136" y="30" width="26" height="130" rx="3" fill="#0B2545"/>
+  <!-- El check dorado verifica ese crecimiento -->
+  <polyline points="24,118 66,158 178,32" fill="none" stroke="#C9A227" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
